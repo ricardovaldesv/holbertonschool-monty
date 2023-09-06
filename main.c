@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
                 if (strcmp(opcode, "push") == 0)
                 {
-                        value = strtok(NULL, " \n");
+                        value = strtok(NULL, " -\n");
                         if (value == NULL || !isdigit(value[0]))
                         {
                                 fprintf(stderr, "L%lu: usage: push integer\n", line_number);
