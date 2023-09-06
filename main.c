@@ -48,7 +48,8 @@ int main(int argc, char *argv[])
         free(line); /*libera el bufer de la linea asignada*/
         line = NULL;
         }
-        fclose(file);
+        free(line);
+	fclose(file);
         return (0);
 }
 /**
