@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
                 }
 		else
 		{
-			fprintf(stderr, "L%lu: unknown instruction %s \n", line_number, opcode);
+			fprintf(stderr, "L%lu: unknown instruction %s\n", line_number, opcode);
 			fclose(file);
 			free(line);
 			free_dlistint(stack);
