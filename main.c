@@ -45,10 +45,11 @@ int main(int argc, char *argv[])
                 {
                         pall(&stack, line_number);
                 }
-        free(line); /*libera el bufer de la linea asignada*/
+	free(line); /*libera el bufer de la linea asignada*/
         line = NULL;
         }
-        free(line);
+        free_dlistint(stack);
+	free(line);
 	fclose(file);
         return (0);
 }
@@ -90,4 +91,21 @@ void pall(stack_t **stack, unsigned int line_number)
                 printf("%d\n", current->n);
                 current = current->next;
         }
+}
+
+/**
+ * free_dlistint - function that frees a list
+ * @head: pointer to the header of the nodes
+ * Return: void
+ */
+void free_dlistint(stack_t *stack)
+{
+	stack_t *tmp;
+
+	while (stack != NULL)
+	{
+		tmp = stack;
+		stack = stack->next;
+		free(tmp);
+	}
 }
