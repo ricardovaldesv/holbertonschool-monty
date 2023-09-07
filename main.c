@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 	size_t line_number = 0, len = 0;
 	FILE *file;
 	int i;
+	stack_t *stack = NULL;
 
 	if (argc != 2)
 	{
@@ -58,6 +59,10 @@ int main(int argc, char *argv[])
 		else if (strcmp(opcode, "pint") == 0)
 		{
 			pint(&stack, line_number);
+		}
+		else if (strcmp(opcode, "pop") == 0)
+		{
+			pop(&stack, 0);
 		}
 		else
 		{
