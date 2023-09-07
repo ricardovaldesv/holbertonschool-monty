@@ -32,13 +32,16 @@ int main(int argc, char *argv[])
                 if (strcmp(opcode, "push") == 0)
                 {
                         value = strtok(NULL, " -\n");
-                        if (value == NULL || !isdigit(value[0]))
-                        {
-                                fprintf(stderr, "L%lu: usage: push integer\n", line_number);
-                                fclose(file);
-                                free(line);
-                                exit(EXIT_FAILURE);
-                        }
+                        for (int i = 0; value[i] != '\0'; i++)
+			{
+				if (value == NULL || (!isdigit(value[i]) && value[i] != '-' && value[i] != '$'))
+                        	{
+                                	fprintf(stderr, "L%lu: usage: push integer\n", line_number);
+                                	fclose(file);
+                                	free(line);
+                                	exit(EXIT_FAILURE);
+                        	}
+			}
                         push(&stack, atoi(value));
                 }
                 else if (strcmp(opcode, "pall") == 0)
