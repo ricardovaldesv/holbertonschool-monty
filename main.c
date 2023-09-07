@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
         char *opcode, *value, *line = NULL;
         size_t line_number = 0, len = 0;
         FILE *file;
-
+	int i;
         if (argc != 2)
         {
                 fprintf(stderr, "USAGE: monty file\n");
@@ -31,10 +31,17 @@ int main(int argc, char *argv[])
 
                 if (strcmp(opcode, "push") == 0)
                 {
-                        value = strtok(NULL, " -\n");
-                        for (int i = 0; value[i] != '\0'; i++)
+                        value = strtok(NULL, " $\n");
+			if (value == NULL)
 			{
-				if (value == NULL || (!isdigit(value[i]) && value[i] != '-' && value[i] != '$'))
+				fprintf(stderr, "L%lu: usage: push integer\n", line_number);
+				fclose(file);
+				free(line);
+				exit(EXIT_FAILURE);
+			}
+			for (i = 0; value[i] != '\0'; i++)
+			{
+				if  (!isdigit(value[i]) && value[i] != '-')
                         	{
                                 	fprintf(stderr, "L%lu: usage: push integer\n", line_number);
                                 	fclose(file);
@@ -42,7 +49,7 @@ int main(int argc, char *argv[])
                                 	exit(EXIT_FAILURE);
                         	}
 			}
-                        push(&stack, atoi(value));
+			push(&stack, atoi(value));
                 }
                 else if (strcmp(opcode, "pall") == 0)
                 {
