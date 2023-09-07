@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	FILE *file;
 	int i;
 	stack_t *stack = NULL;
+	size_t nodes;
 
 	if (argc != 2)
 	{
@@ -71,6 +72,12 @@ int main(int argc, char *argv[])
 		}
 		else if (strcmp(opcode, "swap") == 0)
 		{
+			nodes = dlistint_len(stack);
+			if (nodes < 2)
+			{
+				fprintf(stderr, "L%lu: can't swap, stack too short\n", line_number);
+				exit(EXIT_FAILURE);
+			}
 			swap(&stack, 0);
 		}
 		else
@@ -165,4 +172,23 @@ void pint(stack_t **stack, unsigned int line_number)
                 exit(EXIT_FAILURE);
         }
         printf("%d\n", (*stack)->n);
+}
+
+/**
+ * dlistint_len - function that returns the number of elements in a linked list
+ * @h: pointer to the header of the nodes
+ * Return: the numbers of nodes
+ */
+
+size_t dlistint_len(const stack_t *stack)
+{
+	size_t i = 0;
+	const stack_t *actual = stack;
+
+	while (actual != NULL)
+	{
+		actual = actual->next;
+		i++;
+	}
+	return (i);
 }
