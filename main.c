@@ -62,6 +62,11 @@ int main(int argc, char *argv[])
 		}
 		else if (strcmp(opcode, "pop") == 0)
 		{
+			if (stack == NULL)
+			{
+				fprintf(stderr, "L%lu: can't pop an empty stack\n", line_number);
+				exit(EXIT_FAILURE);	
+			}
 			pop(&stack, 0);
 		}
 		else
