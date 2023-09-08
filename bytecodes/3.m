@@ -1,4 +1,2 @@
-push 98
-push 402
-swap Holberton
-pall
+push 1
+pinte

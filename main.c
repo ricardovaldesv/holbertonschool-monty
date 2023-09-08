@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	char *opcode, *value, *line = NULL;
 	size_t line_number = 0, len = 0;
 	FILE *file;
-	int i;
+	int i, j, flag;
 	stack_t *stack = NULL;
 
 	if (argc != 2)
@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 	};
 	while (getline(&line, &len, file) != -1)
 	{
+		flag = 0;
 		line_number++;
 		opcode = strtok(line, " \t$\n");
 		if (opcode == NULL || opcode[0] == '#')
@@ -62,18 +63,20 @@ int main(int argc, char *argv[])
 				}
 			}
 		push(&stack, atoi(value));
+		flag = 1;
 		}
-
-		for (int i = 0; opcodes[i].opcode != NULL; i++)
+		if (flag == 0)
 		{
-			if (strcmp(opcode, opcodes[i].opcode) == 0)
+			for (j = 0; opcodes[j].opcode != NULL; j++)
 			{
-				opcodes[i].f(&stack, line_number);
-				break;
+				if (strcmp(opcode, opcodes[j].opcode) == 0)
+				{
+					opcodes[j].f(&stack, line_number);
+					break;
+				}
 			}
 		}
-		
-		if (opcodes[i].opcode == NULL)
+		if (j == 6)
 		{
 			fprintf(stderr, "L%lu: unknown instruction %s\n", line_number, opcode);
 			fclose(file);
