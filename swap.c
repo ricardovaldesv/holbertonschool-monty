@@ -9,13 +9,27 @@
 
 void swap(stack_t **stack, unsigned int line_number)
 {
-        stack_t *node_to_swap = *stack;
-        (void)line_number;/*Parametro no Utilizado*/
+	size_t node;
 
-        *stack = node_to_swap->next;
-        (*stack)->prev = NULL;
-        node_to_swap->prev = (*stack)->next->prev;
-        (*stack)->next->prev = node_to_swap;
-        node_to_swap->next = (*stack)->next;
-        (*stack)->next = node_to_swap;
+	node = dlistint_len(*stack);
+        stack_t *node_to_swap = *stack;
+	(void)line_number;/*Parametro no Utilizado*/
+	if (node == 2)
+	{
+		*stack = node_to_swap->next;
+		(*stack)->prev = NULL;
+		node_to_swap->prev = node_to_swap->next;
+		(*stack)->next = node_to_swap;
+		node_to_swap->next = NULL;
+		
+	}
+	else
+	{
+        	*stack = node_to_swap->next;
+        	(*stack)->prev = NULL;
+        	node_to_swap->prev = (*stack)->next;
+        	(*stack)->next->prev = node_to_swap;
+        	node_to_swap->next = (*stack)->next;
+        	(*stack)->next = node_to_swap;
+	}
 }
