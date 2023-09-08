@@ -49,4 +49,5 @@ void free_dlistint(stack_t *stack);
 int sum_dlistint(stack_t *stack);
 size_t dlistint_len(const stack_t *stack);
 int delete_dnodeint_at_index(stack_t **stack, unsigned int index);
+void invalid_instruct(unsigned long line_number, const char *opcode, FILE *file, char *line, stack_t *stack);
 #endif

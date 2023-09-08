@@ -77,13 +77,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		if (j == 6)
-		{
-			fprintf(stderr, "L%lu: unknown instruction %s\n", line_number, opcode);
-			fclose(file);
-			free(line);
-			free_dlistint(stack);
-			exit(EXIT_FAILURE);
-		}
+			invalid_instruct(line_number, opcode, file, line, stack);
 	free(line);
 	line = NULL;
 	}
@@ -217,4 +211,22 @@ int delete_dnodeint_at_index(stack_t **stack, unsigned int index)
 	node_to_delete->next->prev = node_to_delete->prev;
 	free(node_to_delete);
 	return (1);
+}
+
+/**
+ *  invalid_instruct- Handles the case of an unknown instruction
+ * @line_number: The line number in the script
+ * @opcode: The unknown instruction
+ * @file: The file pointer to the script file
+ * @line: The line buffer (to be freed)
+ * @stack: The stack (to be freed)
+ */
+
+void invalid_instruct(unsigned long line_number, const char *opcode, FILE *file, char *line, stack_t *stack)
+{
+	fprintf(stderr, "L%lu: unknown instruction %s\n", line_number, opcode);
+	fclose(file);
+	free(line);
+	free_dlistint(stack);
+	exit(EXIT_FAILURE);
 }
