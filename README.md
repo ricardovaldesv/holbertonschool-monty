@@ -62,4 +62,4 @@ pint
 ```
 This Monty script pushes two values (4 and 5) onto the stack, then adds them together using the add instruction, and finally prints the value at the top of the stack using the pint instruction.
 # Credits
-> This Monty interpreter was developed by Girlberto Gomez and Ricardo Valdes.
+> This Monty interpreter was developed by Gilberto lozano and Ricardo Valdés.
