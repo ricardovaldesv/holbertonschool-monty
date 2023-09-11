@@ -16,16 +16,13 @@ int main(int argc, char *argv[])
 
 	if (argc != 2)
 	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
+		error_usage();
 	}
 	file = fopen(argv[1], "r");
 	if (file == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
+		error_file_open(argv[1]);
 	}
-
 	instruction_t opcodes[] = {
 		{"pall", pall},
 		{"pint", pint},
@@ -47,19 +44,13 @@ int main(int argc, char *argv[])
 			value = strtok(NULL, " $\n");
 			if (value == NULL)
 			{
-				fprintf(stderr, "L%lu: usage: push integer\n", line_number);
-				fclose(file);
-				free(line);
-				exit(EXIT_FAILURE);
+				print_push_error(line_number, file, line);
 			}
 			for (i = 0; value[i] != '\0'; i++)
 			{
 				if  (!isdigit(value[i]) && value[i] != '-')
 				{
-					fprintf(stderr, "L%lu: usage: push integer\n", line_number);
-					fclose(file);
-					free(line);
-					exit(EXIT_FAILURE);
+					print_push_error(line_number, file, line);
 				}
 			}
 		push(&stack, atoi(value));
@@ -77,7 +68,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		if (j == 6)
-			invalid_instruct(line_number, opcode, file, line, stack);
+			invalid_inst(line_number, opcode, file, line, stack);
 	free(line);
 	line = NULL;
 	}
@@ -114,7 +105,7 @@ void push(stack_t **stack, int value)
 
 /**
  * free_dlistint - function that frees a list
- * @head: pointer to the header of the nodes
+ * @stack: pointer to free tmp
  * Return: void
  */
 
@@ -132,7 +123,7 @@ void free_dlistint(stack_t *stack)
 
 /**
  * dlistint_len - function that returns the number of elements in a linked list
- * @h: pointer to the header of the nodes
+ * @stack: pointer to the counter nodes
  * Return: the numbers of nodes
  */
 
@@ -169,64 +160,4 @@ int sum_dlistint(stack_t *stack)
 		i++;
 	}
 	return (sum);
-}
-
-/**
- * delete_dnodeint_at_index - func that delet a new node at a given position
- * @head: pointer to the header of the nodes
- * @index: the index of the list where the new node should be added
- * Return: 1 if it succeeded, -1 if it failed
- */
-
-int delete_dnodeint_at_index(stack_t **stack, unsigned int index)
-{
-	unsigned int i;
-	stack_t *node_to_delete;
-
-	if (!stack || !*stack)
-		return (-1);
-	node_to_delete = *stack;
-
-	if (index == 0)
-	{
-		*stack = node_to_delete->next;
-		if (node_to_delete->next)
-			node_to_delete->next->prev = NULL;
-		free(node_to_delete);
-		return (1);
-	}
-	for (i = 0; node_to_delete && i < index; i++)
-	{
-		node_to_delete = node_to_delete->next;
-	}
-	if (!node_to_delete)
-		return (-1);
-	if (!node_to_delete->next)
-	{
-		node_to_delete->prev->next = NULL;
-		free(node_to_delete);
-		return (1);
-	}
-	node_to_delete->prev->next = node_to_delete->next;
-	node_to_delete->next->prev = node_to_delete->prev;
-	free(node_to_delete);
-	return (1);
-}
-
-/**
- *  invalid_instruct- Handles the case of an unknown instruction
- * @line_number: The line number in the script
- * @opcode: The unknown instruction
- * @file: The file pointer to the script file
- * @line: The line buffer (to be freed)
- * @stack: The stack (to be freed)
- */
-
-void invalid_instruct(unsigned long line_number, const char *opcode, FILE *file, char *line, stack_t *stack)
-{
-	fprintf(stderr, "L%lu: unknown instruction %s\n", line_number, opcode);
-	fclose(file);
-	free(line);
-	free_dlistint(stack);
-	exit(EXIT_FAILURE);
 }

@@ -1,16 +1,15 @@
 #include "monty.h"
 
 /**
- * delete_dnodeint_at_index - func that delet a new node at a given position
- * @head: pointer to the header of the nodes
- * @index: the index of the list where the new node should be added
- * Return: 1 if it succeeded, -1 if it failed
+ * swap - function to exchange values
+ * @stack: Pointer to the stack
+ * @line_number: Line number in the script
  */
 
 void swap(stack_t **stack, unsigned int line_number)
 {
 	int temp2;
-	size_t nodes; 
+	size_t nodes;
 	stack_t *node_to_swap = *stack;
 	(void)line_number;/*Parametro no Utilizado*/
 

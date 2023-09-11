@@ -1,7 +1,8 @@
 #include "monty.h"
 
 /**
- * pint - function that prints the value at the top of the stack, followed by a new line.
+ * pint - function that prints the value at the top of the stack,
+ * followed by a new line.
  * @stack: pointer to the header of the nodesi
  * @line_number: line number of file
  * Return: void
